@@ -1,15 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap");
 
 :root {
-  --matcha:   #5B7A4E;
-  --cream:    #F9F4EC;
-  --gold:     #C9963A;
-  --blush:    #E8C9AA;
-  --charcoal: #2B2B2B;
-  --soft:     #F0E8DA;
+  --matcha: #5b7a4e;
+  --cream: #f9f4ec;
+  --gold: #c9963a;
+  --blush: #e8c9aa;
+  --charcoal: #2b2b2b;
+  --soft: #f0e8da;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -17,7 +19,7 @@
 
 body {
   background: var(--cream);
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -92,7 +94,7 @@ body {
 }
 
 .header h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: clamp(36px, 8vw, 58px);
   font-weight: 900;
   color: var(--charcoal);
@@ -125,7 +127,7 @@ body {
   border-right: 16px solid transparent;
   border-top: 34px solid var(--gold);
   z-index: 10;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.25));
 }
 
 canvas {
@@ -134,8 +136,8 @@ canvas {
   height: 100%;
   border-radius: 50%;
   box-shadow:
-    0 8px 40px rgba(91,122,78,.22),
-    0 2px 8px rgba(0,0,0,.10);
+    0 8px 40px rgba(91, 122, 78, 0.22),
+    0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Center logo */
@@ -143,8 +145,8 @@ canvas {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 86px;
-  height: 86px;
+  width: 80px;
+  height: 80px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background: #fffaf1;
@@ -154,14 +156,14 @@ canvas {
   justify-content: center;
   z-index: 6;
   box-shadow:
-    0 4px 14px rgba(0,0,0,.22),
-    inset 0 1px 0 rgba(255,255,255,.8);
+    0 4px 14px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   overflow: hidden;
 }
 
 .center-logo {
-  width: 68px;
-  height: 68px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   display: block;
 }
@@ -173,22 +175,25 @@ canvas {
   padding: 18px 52px;
   background: var(--matcha);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: 0.04em;
   border: none;
   border-radius: 100px;
   cursor: pointer;
-  box-shadow: 0 4px 20px rgba(91,122,78,.35);
-  transition: transform .15s, box-shadow .15s, background .15s;
+  box-shadow: 0 4px 20px rgba(91, 122, 78, 0.35);
+  transition:
+    transform 0.15s,
+    box-shadow 0.15s,
+    background 0.15s;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
 
 .spin-btn:active {
-  transform: scale(.97);
-  box-shadow: 0 2px 10px rgba(91,122,78,.25);
+  transform: scale(0.97);
+  box-shadow: 0 2px 10px rgba(91, 122, 78, 0.25);
 }
 
 .spin-btn:disabled {
@@ -210,7 +215,7 @@ canvas {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(43,43,43,.55);
+  background: rgba(43, 43, 43, 0.55);
   z-index: 100;
   align-items: center;
   justify-content: center;
@@ -228,13 +233,13 @@ canvas {
   max-width: 380px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 20px 60px rgba(0,0,0,.25);
-  animation: pop .35s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  animation: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 @keyframes pop {
   from {
-    transform: scale(.7);
+    transform: scale(0.7);
     opacity: 0;
   }
 
@@ -253,14 +258,14 @@ canvas {
 .result-label {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: .16em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 8px;
 }
 
 .result-title {
-  font-family: 'Playfair Display', serif;
+  font-family: "Playfair Display", serif;
   font-size: 26px;
   font-weight: 700;
   color: var(--charcoal);
@@ -281,13 +286,13 @@ canvas {
   padding: 16px;
   background: var(--matcha);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: "DM Sans", sans-serif;
   font-size: 16px;
   font-weight: 600;
   border: none;
   border-radius: 100px;
   cursor: pointer;
-  transition: background .15s;
+  transition: background 0.15s;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
