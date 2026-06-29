@@ -24,6 +24,57 @@
     overflow-x: hidden;
   }
 
+  /* ── Brand logo ── */
+  .brand-logo-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.brand-logo-bg {
+  width: 96px;
+  height: 96px;
+  border-radius: 28px;
+  background: linear-gradient(145deg, #fffaf1, #efe2c9);
+  border: 2px solid rgba(201, 150, 58, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 10px 28px rgba(91, 122, 78, 0.20),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-logo-bg::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 22px;
+  border: 1px dashed rgba(201, 150, 58, 0.45);
+  pointer-events: none;
+}
+
+.brand-logo-bg::after {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.35);
+  transform: rotate(-35deg);
+  top: 8px;
+  left: -45px;
+}
+
+.brand-logo {
+  width: 74px;
+  height: 74px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 2px 3px rgba(0,0,0,.12));
+}
   /* ── Header ── */
   .header {
     text-align: center;
