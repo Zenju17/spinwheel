@@ -1,0 +1,214 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --matcha:   #5B7A4E;
+    --cream:    #F9F4EC;
+    --gold:     #C9963A;
+    --blush:    #E8C9AA;
+    --charcoal: #2B2B2B;
+    --soft:     #F0E8DA;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 24px 16px 40px;
+    overflow-x: hidden;
+  }
+
+  /* ── Header ── */
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .header .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 7vw, 52px);
+    font-weight: 900;
+    color: var(--charcoal);
+    line-height: 1.1;
+  }
+  .header p {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #777;
+  }
+
+  /* ── Wheel stage ── */
+  .wheel-stage {
+    position: relative;
+    width: min(420px, 90vw);
+    height: min(420px, 90vw);
+    margin: 0 auto 28px;
+  }
+
+  /* Pointer */
+  .pointer {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 16px solid transparent;
+    border-right: 16px solid transparent;
+    border-top: 34px solid var(--gold);
+    z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,.25));
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    box-shadow: 0 8px 40px rgba(91,122,78,.22), 0 2px 8px rgba(0,0,0,.10);
+  }
+
+  /* Center cap */
+  .center-cap {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 3px solid var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 5;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  }
+  .center-cap span {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  /* ── Spin button ── */
+  .spin-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 18px 52px;
+    background: var(--matcha);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(91,122,78,.35);
+    transition: transform .15s, box-shadow .15s, background .15s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .spin-btn:active { transform: scale(.97); box-shadow: 0 2px 10px rgba(91,122,78,.25); }
+  .spin-btn:disabled {
+    background: #aaa;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .rule {
+    margin-top: 16px;
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+  }
+
+  /* ── Result overlay ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(43,43,43,.55);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .overlay.show { display: flex; }
+
+  .result-card {
+    background: var(--cream);
+    border-radius: 28px;
+    padding: 40px 32px 36px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,.25);
+    animation: pop .35s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes pop {
+    from { transform: scale(.7); opacity: 0; }
+    to   { transform: scale(1);  opacity: 1; }
+  }
+
+  .result-emoji {
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .result-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--charcoal);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .result-note {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.55;
+    margin-bottom: 28px;
+  }
+
+  .close-btn {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--matcha);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background .15s;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .close-btn:active { background: #4a6640; }
+
+  .good-luck-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: #999;
+  }
