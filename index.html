@@ -1,51 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Spin & Win!</title>
+<head>
+  <meta charset="UTF-8" />
 
-    <link rel="stylesheet" href="style.css" />
-  </head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
 
-  <body>
+  <title>Spin & Win!</title>
 
-    <div class="header">
-      <div class="top-logo-card">
-        <img src="image/MV_Logo.png" alt="Matcha Venture Logo" class="top-logo">
-      </div>
+  <link rel="stylesheet" href="style.css" />
+</head>
 
-      <div class="eyebrow">One spin per purchase</div>
-      <h1>Spin &amp; Win</h1>
-      <p>Tap the button and see what you get 🍵</p>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="top-logo-card">
+      <img
+        src="image/MV_Logo.png"
+        alt="Matcha Venture Logo"
+        class="top-logo"
+      />
     </div>
 
-    <div class="wheel-stage">
-      <div class="pointer"></div>
+    <div class="eyebrow">One spin per purchase</div>
 
-      <canvas id="wheel" width="600" height="600"></canvas>
+    <h1>Spin &amp; Win</h1>
 
-      <div class="center-cap">
-        <img src="image/MV_Logo.png" alt="Matcha Venture Logo"
-          class="center-logo">
-      </div>
+    <p>Tap the button and see what you get 🍵</p>
+  </div>
+
+  <!-- Wheel -->
+  <div class="wheel-stage">
+    <div class="pointer"></div>
+
+    <canvas id="wheel" width="600" height="600"></canvas>
+
+    <div class="center-cap">
+      <img
+        src="image/MV_Logo.png"
+        alt="Matcha Venture Logo"
+        class="center-logo"
+      />
     </div>
+  </div>
 
-    <button class="spin-btn" id="spinBtn">SPIN THE WHEEL</button>
-    <p class="rule">One spin per qualifying purchase. Good luck!</p>
+  <!-- Spin Button -->
+  <button class="spin-btn" id="spinBtn">
+    SPIN THE WHEEL
+  </button>
 
-    <div class="overlay" id="overlay">
-      <div class="result-card">
-        <div class="result-emoji" id="resEmoji"></div>
-        <div class="result-label">You won</div>
-        <div class="result-title" id="resTitle"></div>
-        <div class="result-note" id="resNote"></div>
-        <button class="close-btn" id="closeBtn">Claim My Prize 🎉</button>
-        <p class="good-luck-note" id="glNote"></p>
-      </div>
+  <p class="rule">One spin per purchase. Good luck!</p>
+
+  <!-- Result Overlay -->
+  <div class="overlay" id="overlay">
+    <div class="result-card">
+      <div class="result-emoji" id="resEmoji"></div>
+
+      <div class="result-label">You won</div>
+
+      <div class="result-title" id="resTitle"></div>
+
+      <div class="result-note" id="resNote"></div>
+
+      <button class="close-btn" id="closeBtn">
+        Claim My Prize 🎉
+      </button>
+
+      <p class="good-luck-note" id="glNote"></p>
     </div>
+  </div>
 
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
