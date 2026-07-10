@@ -478,6 +478,19 @@ canvas {
   cursor: not-allowed;
   box-shadow: none;
 }
+
+.admin-total-card {
+  margin-bottom: 14px;
+  padding: 16px;
+  border-radius: 18px;
+  background: var(--matcha);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(91, 122, 78, 0.22);
+}
+
 /* Mobile responsive */
 @media (max-width: 480px) {
   body {

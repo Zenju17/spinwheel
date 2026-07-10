@@ -405,13 +405,58 @@ function getPrizeFallbackName(prizeId) {
   return names[prizeId] || prizeId;
 }
 
+function getTodayDateRange() {
+  const now = new Date();
+
+  const startOfToday = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    0,
+    0,
+    0,
+    0
+  );
+
+  const startOfTomorrow = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() + 1,
+    0,
+    0,
+    0,
+    0
+  );
+
+  return {
+    startOfToday,
+    startOfTomorrow,
+  };
+}
+
 async function renderAdminDashboard() {
   const adminStats = document.getElementById("adminStats");
   const historyList = document.getElementById("historyList");
+  const adminTodayTotal = document.getElementById("adminTodayTotal");
 
   if (!adminStats || !historyList) return;
 
   await loadPrizeStatus();
+
+  const { startOfToday, startOfTomorrow } = getTodayDateRange();
+
+  const todayTotalQuery = query(
+    collection(db, "spin_history"),
+    where("createdAt", ">=", Timestamp.fromDate(startOfToday)),
+    where("createdAt", "<", Timestamp.fromDate(startOfTomorrow)),
+    orderBy("createdAt", "asc")
+  );
+
+  const todayTotalSnapshot = await getDocs(todayTotalQuery);
+
+  if (adminTodayTotal) {
+    adminTodayTotal.textContent = `Total Spins Today: ${todayTotalSnapshot.size}`;
+  }
 
   const order = getPrizeDisplayOrder();
 
@@ -496,11 +541,14 @@ async function resetPrizeCounts() {
     return;
   }
 
-  const confirmReset = confirm(
-    "Are you sure you want to reset all prize counts to 0? This cannot be undone from the app."
+  const resetText = prompt(
+    "Type RESET to confirm resetting all prize counts to 0:"
   );
 
-  if (!confirmReset) return;
+  if (resetText !== "RESET") {
+    alert("Reset cancelled. You must type RESET exactly.");
+    return;
+  }
 
   const resetBtn = document.getElementById("adminResetBtn");
 
@@ -590,26 +638,7 @@ async function exportTodaySpinHistory() {
     }
 
     const now = new Date();
-
-    const startOfToday = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate(),
-      0,
-      0,
-      0,
-      0
-    );
-
-    const startOfTomorrow = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate() + 1,
-      0,
-      0,
-      0,
-      0
-    );
+    const { startOfToday, startOfTomorrow } = getTodayDateRange();
 
     const todayQuery = query(
       collection(db, "spin_history"),
