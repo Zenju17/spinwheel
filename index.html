@@ -1,102 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
+  <head>
+    <meta charset="UTF-8" />
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
-  <title>Spin & Win!</title>
+    <title>Spin & Win!</title>
 
-  <link rel="stylesheet" href="style.css" />
-</head>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<body>
+  <body>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="top-logo-card">
-      <img
-        src="image/MV_Logo.png"
-        alt="Matcha Venture Logo"
-        class="top-logo"
-      />
+    <!-- Header -->
+    <div class="header">
+      <div class="top-logo-card">
+        <img
+          src="image/MV_Logo.png"
+          alt="Matcha Venture Logo"
+          class="top-logo" />
+      </div>
+
+      <div class="eyebrow">Every 5$ spent = 1 lucky Wheel Spin</div>
+
+      <h1>Spin &amp; Win</h1>
+
+      <p>Tap the button and see what you get 🍵</p>
     </div>
 
-    <div class="eyebrow">Every 5$ spent = 1 lucky Wheel Spin</div>
+    <!-- Wheel -->
+    <div class="wheel-stage">
+      <div class="pointer"></div>
 
-    <h1>Spin &amp; Win</h1>
+      <canvas id="wheel" width="600" height="600"></canvas>
 
-    <p>Tap the button and see what you get 🍵</p>
-  </div>
-
-  <!-- Wheel -->
-  <div class="wheel-stage">
-    <div class="pointer"></div>
-
-    <canvas id="wheel" width="600" height="600"></canvas>
-
-    <div class="center-cap">
-      <img
-        src="image/MV_Logo.png"
-        alt="Matcha Venture Logo"
-        class="center-logo"
-      />
+      <div class="center-cap">
+        <img
+          src="image/MV_Logo.png"
+          alt="Matcha Venture Logo"
+          class="center-logo" />
+      </div>
     </div>
-  </div>
 
-  <!-- Spin Button -->
-  <button class="spin-btn" id="spinBtn">
-    SPIN THE WHEEL
-  </button>
+    <!-- Spin Button -->
+    <button class="spin-btn" id="spinBtn">
+      SPIN THE WHEEL
+    </button>
 
-  <p class="rule">Every 5$ spent = 1 lucky Wheel Spin.🎡 Good luck!🍀</p>
+    <p class="rule">Every 5$ spent = 1 lucky Wheel Spin.🎡 Good luck!🍀</p>
 
-<button class="admin-toggle-btn" id="adminToggleBtn">
-  View Prize Dashboard
-</button>
+    <button class="admin-toggle-btn" id="adminToggleBtn">
+      View Prize Dashboard
+    </button>
 
-<div class="admin-panel" id="adminPanel">
-  <div class="admin-header">
-    <h2>Prize Dashboard</h2>
-    <button class="admin-close-btn" id="adminCloseBtn">×</button>
-  </div>
+    <div class="admin-panel" id="adminPanel">
+      <div class="admin-header">
+        <h2>Prize Dashboard</h2>
+        <button class="admin-close-btn" id="adminCloseBtn">×</button>
+      </div>
 
-  <div class="admin-stats" id="adminStats">
-  Loading prize data...
-</div>
+      <div class="admin-stats" id="adminStats">
+        Loading prize data...
+      </div>
 
-<button class="admin-reset-btn" id="adminResetBtn">
-  Reset Prize Counts
-</button>
-
-  <div class="admin-history">
-    <h3>Recent Spin History</h3>
-    <div id="historyList">Loading history...</div>
-  </div>
-</div>
-
-  <!-- Result Overlay -->
-  <div class="overlay" id="overlay">
-    <div class="result-card">
-      <div class="result-emoji" id="resEmoji"></div>
-
-      <div class="result-label">You won</div>
-
-      <div class="result-title" id="resTitle"></div>
-
-      <div class="result-note" id="resNote"></div>
-
-      <button class="close-btn" id="closeBtn">
-        Claim My Prize 🎉
+      <button class="admin-reset-btn" id="adminResetBtn">
+        Reset Prize Counts
+      </button>
+      
+      <button class="admin-export-btn" id="adminExportBtn">
+        Export Today CSV
       </button>
 
-      <p class="good-luck-note" id="glNote"></p>
+      <div class="admin-history">
+        <h3>Recent Spin History</h3>
+        <div id="historyList">Loading history...</div>
+      </div>
     </div>
-  </div>
 
-  <script type="module" src="script.js"></script>
-</body>
+    <!-- Result Overlay -->
+    <div class="overlay" id="overlay">
+      <div class="result-card">
+        <div class="result-emoji" id="resEmoji"></div>
+
+        <div class="result-label">You won</div>
+
+        <div class="result-title" id="resTitle"></div>
+
+        <div class="result-note" id="resNote"></div>
+
+        <button class="close-btn" id="closeBtn">
+          Claim My Prize 🎉
+        </button>
+
+        <p class="good-luck-note" id="glNote"></p>
+      </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+  </body>
 </html>

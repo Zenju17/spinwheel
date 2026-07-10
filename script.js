@@ -11,6 +11,8 @@ import {
   orderBy,
   limit,
   updateDoc,
+  where,
+  Timestamp,
 } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
 /* Firebase config */
@@ -353,7 +355,7 @@ async function spinWheel() {
     console.error(error);
 
     alert(
-      "Something went wrong while saving the spin result. Please check Firestore setup.",
+      "Something went wrong while saving the spin result. Please check Firestore setup."
     );
 
     spinning = false;
@@ -453,7 +455,7 @@ async function renderAdminDashboard() {
   const historyQuery = query(
     collection(db, "spin_history"),
     orderBy("createdAt", "desc"),
-    limit(10),
+    limit(10)
   );
 
   const historySnapshot = await getDocs(historyQuery);
@@ -495,7 +497,7 @@ async function resetPrizeCounts() {
   }
 
   const confirmReset = confirm(
-    "Are you sure you want to reset all prize counts to 0? This cannot be undone from the app.",
+    "Are you sure you want to reset all prize counts to 0? This cannot be undone from the app."
   );
 
   if (!confirmReset) return;
@@ -514,8 +516,8 @@ async function resetPrizeCounts() {
       prizeIds.map((prizeId) =>
         updateDoc(doc(db, "prizes", prizeId), {
           won: 0,
-        }),
-      ),
+        })
+      )
     );
 
     await loadPrizeStatus();
@@ -529,6 +531,171 @@ async function resetPrizeCounts() {
     if (resetBtn) {
       resetBtn.disabled = false;
       resetBtn.textContent = "Reset Prize Counts";
+    }
+  }
+}
+
+/* CSV export helpers */
+function escapeCsvValue(value) {
+  if (value === null || value === undefined) return "";
+
+  const stringValue = String(value);
+
+  if (
+    stringValue.includes(",") ||
+    stringValue.includes('"') ||
+    stringValue.includes("\n")
+  ) {
+    return `"${stringValue.replace(/"/g, '""')}"`;
+  }
+
+  return stringValue;
+}
+
+function downloadCsv(filename, rows) {
+  const csvContent = rows
+    .map((row) => row.map(escapeCsvValue).join(","))
+    .join("\n");
+
+  const blob = new Blob([csvContent], {
+    type: "text/csv;charset=utf-8;",
+  });
+
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+async function exportTodaySpinHistory() {
+  const pin = prompt("Enter 4-digit PIN to export today's data:");
+
+  if (pin !== ADMIN_PIN) {
+    alert("Incorrect PIN. Export cancelled.");
+    return;
+  }
+
+  const exportBtn = document.getElementById("adminExportBtn");
+
+  try {
+    if (exportBtn) {
+      exportBtn.disabled = true;
+      exportBtn.textContent = "Exporting...";
+    }
+
+    const now = new Date();
+
+    const startOfToday = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      0,
+      0,
+      0,
+      0
+    );
+
+    const startOfTomorrow = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate() + 1,
+      0,
+      0,
+      0,
+      0
+    );
+
+    const todayQuery = query(
+      collection(db, "spin_history"),
+      where("createdAt", ">=", Timestamp.fromDate(startOfToday)),
+      where("createdAt", "<", Timestamp.fromDate(startOfTomorrow)),
+      orderBy("createdAt", "asc")
+    );
+
+    const snapshot = await getDocs(todayQuery);
+
+    if (snapshot.empty) {
+      alert("No spin history found for today.");
+      return;
+    }
+
+    const rows = [
+      ["No.", "Date", "Time", "Prize ID", "Prize Name", "Prize Type", "Source"],
+    ];
+
+    const summary = {
+      total: 0,
+      good_luck: 0,
+      fifty_off: 0,
+      soft_serve: 0,
+      free_drink: 0,
+    };
+
+    let counter = 1;
+
+    snapshot.forEach((docSnap) => {
+      const item = docSnap.data();
+
+      let dateText = "";
+      let timeText = "";
+
+      if (item.createdAt && item.createdAt.toDate) {
+        const createdDate = item.createdAt.toDate();
+
+        dateText = createdDate.toISOString().slice(0, 10);
+        timeText = createdDate.toLocaleTimeString([], {
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      }
+
+      const prizeType = item.isGoodLuck === true ? "Good Luck" : "Prize";
+
+      rows.push([
+        counter,
+        dateText,
+        timeText,
+        item.prizeId || "",
+        item.prizeName || "",
+        prizeType,
+        item.source || "",
+      ]);
+
+      summary.total += 1;
+
+      if (summary[item.prizeId] !== undefined) {
+        summary[item.prizeId] += 1;
+      }
+
+      counter++;
+    });
+
+    rows.push([]);
+    rows.push(["SUMMARY"]);
+    rows.push(["Total Spins", summary.total]);
+    rows.push(["Good Luck", summary.good_luck]);
+    rows.push(["50% Off Voucher", summary.fifty_off]);
+    rows.push(["Free Mini Waffle Soft Serve", summary.soft_serve]);
+    rows.push(["Free 1 Drink", summary.free_drink]);
+
+    const datePart = now.toISOString().slice(0, 10);
+    downloadCsv(`spin-history-summary-${datePart}.csv`, rows);
+
+    alert("Today's filtered spin history CSV has been downloaded.");
+  } catch (error) {
+    console.error(error);
+    alert("Export failed. Please check Firestore rules or index settings.");
+  } finally {
+    if (exportBtn) {
+      exportBtn.disabled = false;
+      exportBtn.textContent = "Export Today CSV";
     }
   }
 }
@@ -552,6 +719,7 @@ const adminToggleBtn = document.getElementById("adminToggleBtn");
 const adminCloseBtn = document.getElementById("adminCloseBtn");
 const adminPanel = document.getElementById("adminPanel");
 const adminResetBtn = document.getElementById("adminResetBtn");
+const adminExportBtn = document.getElementById("adminExportBtn");
 
 if (adminToggleBtn && adminPanel) {
   adminToggleBtn.addEventListener("click", async () => {
@@ -579,6 +747,10 @@ if (adminCloseBtn && adminPanel) {
 
 if (adminResetBtn) {
   adminResetBtn.addEventListener("click", resetPrizeCounts);
+}
+
+if (adminExportBtn) {
+  adminExportBtn.addEventListener("click", exportTodaySpinHistory);
 }
 
 /* First load */

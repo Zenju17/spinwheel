@@ -454,6 +454,30 @@ canvas {
   cursor: not-allowed;
   box-shadow: none;
 }
+.admin-export-btn {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 14px 18px;
+  border: none;
+  border-radius: 999px;
+  background: var(--matcha);
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(91, 122, 78, 0.22);
+}
+
+.admin-export-btn:active {
+  transform: scale(0.98);
+}
+
+.admin-export-btn:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+  box-shadow: none;
+}
 /* Mobile responsive */
 @media (max-width: 480px) {
   body {
