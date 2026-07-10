@@ -25,7 +25,7 @@
       />
     </div>
 
-    <div class="eyebrow">One spin per purchase</div>
+    <div class="eyebrow">Every 5$ spent = 1 lucky Wheel Spin</div>
 
     <h1>Spin &amp; Win</h1>
 
@@ -52,7 +52,31 @@
     SPIN THE WHEEL
   </button>
 
-  <p class="rule">One spin per purchase. Good luck!</p>
+  <p class="rule">Every 5$ spent = 1 lucky Wheel Spin.🎡 Good luck!🍀</p>
+
+<button class="admin-toggle-btn" id="adminToggleBtn">
+  View Prize Dashboard
+</button>
+
+<div class="admin-panel" id="adminPanel">
+  <div class="admin-header">
+    <h2>Prize Dashboard</h2>
+    <button class="admin-close-btn" id="adminCloseBtn">×</button>
+  </div>
+
+  <div class="admin-stats" id="adminStats">
+  Loading prize data...
+</div>
+
+<button class="admin-reset-btn" id="adminResetBtn">
+  Reset Prize Counts
+</button>
+
+  <div class="admin-history">
+    <h3>Recent Spin History</h3>
+    <div id="historyList">Loading history...</div>
+  </div>
+</div>
 
   <!-- Result Overlay -->
   <div class="overlay" id="overlay">
@@ -73,6 +97,6 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

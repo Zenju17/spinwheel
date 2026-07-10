@@ -365,13 +365,21 @@ The actual prize count is stored in Firestore, so it can still be viewed from Fi
 
 Paste this into:
 
+<<<<<<< HEAD
 ```text
+=======
+```
+>>>>>>> 1983563 (Add Firestore prize tracking and admin dashboard)
 Firebase Console → Firestore Database → Rules
 ```
 
 Then click:
 
+<<<<<<< HEAD
 ```text
+=======
+```
+>>>>>>> 1983563 (Add Firestore prize tracking and admin dashboard)
 Publish
 ```
 
