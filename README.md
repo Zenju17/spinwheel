@@ -53,19 +53,19 @@ spinwheel/
 The wheel has 8 total slices.
 
 ```text
-Good Luck: 4/8
+Good Luck: 3/8
 50% Off Voucher: 2/8
 Free Mini Waffle Soft Serve: 1/8
-Free 1 Drink: 1/8
+Free 1 Drink: 2/8
 ```
 
 Current chance:
 
 ```text
-Good Luck: 50%
+Good Luck: 37.5%
 50% Off Voucher: 25%
 Free Mini Waffle Soft Serve: 12.5%
-Free 1 Drink: 12.5%
+Free 1 Drink: 25%
 ```
 
 ---
