@@ -1,0 +1,10 @@
+Prize ID,Prize Name,Won,Limit,Remaining,Active,Usage %
+fifty_off,50% Off Voucher,52,300,248,Yes,17.33
+soft_serve,Free Mini Waffle Soft Serve,18,280,262,Yes,6.43
+free_drink,Free 1 Drink,49,70,21,Yes,70.00
+good_luck,Good Luck,64,350,286,Yes,18.29
+
+SUMMARY
+Total Won,183
+Total Limit,1000
+Total Remaining,817

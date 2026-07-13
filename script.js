@@ -621,8 +621,8 @@ function downloadCsv(filename, rows) {
   URL.revokeObjectURL(url);
 }
 
-async function exportTodaySpinHistory() {
-  const pin = prompt("Enter 4-digit PIN to export today's data:");
+async function exportPrizeReport() {
+  const pin = prompt("Enter 4-digit PIN to export the prize report:");
 
   if (pin !== ADMIN_PIN) {
     alert("Incorrect PIN. Export cancelled.");
@@ -638,93 +638,49 @@ async function exportTodaySpinHistory() {
     }
 
     const now = new Date();
-    const { startOfToday, startOfTomorrow } = getTodayDateRange();
+    await loadPrizeStatus();
 
-    const todayQuery = query(
-      collection(db, "spin_history"),
-      where("createdAt", ">=", Timestamp.fromDate(startOfToday)),
-      where("createdAt", "<", Timestamp.fromDate(startOfTomorrow)),
-      orderBy("createdAt", "asc")
-    );
+    const order = getPrizeDisplayOrder();
 
-    const snapshot = await getDocs(todayQuery);
+    const rows = [["Prize", "Total Prize", "Won", "Remain"]];
 
-    if (snapshot.empty) {
-      alert("No spin history found for today.");
-      return;
-    }
+    let totalWon = 0;
+    let totalLimit = 0;
 
-    const rows = [
-      ["No.", "Date", "Time", "Prize ID", "Prize Name", "Prize Type", "Source"],
-    ];
+    order.forEach((prizeId) => {
+      const prize = prizeStatus[prizeId];
 
-    const summary = {
-      total: 0,
-      good_luck: 0,
-      fifty_off: 0,
-      soft_serve: 0,
-      free_drink: 0,
-    };
-
-    let counter = 1;
-
-    snapshot.forEach((docSnap) => {
-      const item = docSnap.data();
-
-      let dateText = "";
-      let timeText = "";
-
-      if (item.createdAt && item.createdAt.toDate) {
-        const createdDate = item.createdAt.toDate();
-
-        dateText = createdDate.toISOString().slice(0, 10);
-        timeText = createdDate.toLocaleTimeString([], {
-          hour: "numeric",
-          minute: "2-digit",
-          second: "2-digit",
-        });
+      if (!prize) {
+        rows.push([getPrizeFallbackName(prizeId), "", "", ""]);
+        return;
       }
 
-      const prizeType = item.isGoodLuck === true ? "Good Luck" : "Prize";
+      const won = Number(prize.won || 0);
+      const prizeLimit = Number(prize.limit || 0);
+      const remaining = Math.max(prizeLimit - won, 0);
+      totalWon += won;
+      totalLimit += prizeLimit;
 
-      rows.push([
-        counter,
-        dateText,
-        timeText,
-        item.prizeId || "",
-        item.prizeName || "",
-        prizeType,
-        item.source || "",
-      ]);
-
-      summary.total += 1;
-
-      if (summary[item.prizeId] !== undefined) {
-        summary[item.prizeId] += 1;
-      }
-
-      counter++;
+      rows.push([prize.name || getPrizeFallbackName(prizeId), prizeLimit, won, remaining]);
     });
 
     rows.push([]);
     rows.push(["SUMMARY"]);
-    rows.push(["Total Spins", summary.total]);
-    rows.push(["Good Luck", summary.good_luck]);
-    rows.push(["50% Off Voucher", summary.fifty_off]);
-    rows.push(["Free Mini Waffle Soft Serve", summary.soft_serve]);
-    rows.push(["Free 1 Drink", summary.free_drink]);
+    rows.push(["Total Won", totalWon]);
+    rows.push(["Total Limit", totalLimit]);
+    rows.push(["Total Remaining", Math.max(totalLimit - totalWon, 0)]);
 
     const datePart = now.toISOString().slice(0, 10);
-    downloadCsv(`spin-history-summary-${datePart}.csv`, rows);
+    downloadCsv(`prize-report-${datePart}.csv`, rows);
 
-    alert("Today's filtered spin history CSV has been downloaded.");
+    alert("Overall prize report CSV has been downloaded.");
   } catch (error) {
     console.error(error);
-    alert("Export failed. Please check Firestore rules or index settings.");
+    alert("Export failed. Please check Firestore rules.");
   } finally {
     if (exportBtn) {
       exportBtn.disabled = false;
-      exportBtn.textContent = "Export Today CSV";
+      exportBtn.textContent = "Export Prize Report CSV";
     }
   }
 }
@@ -779,7 +735,7 @@ if (adminResetBtn) {
 }
 
 if (adminExportBtn) {
-  adminExportBtn.addEventListener("click", exportTodaySpinHistory);
+  adminExportBtn.addEventListener("click", exportPrizeReport);
 }
 
 /* First load */
